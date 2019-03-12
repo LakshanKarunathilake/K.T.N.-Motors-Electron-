@@ -1,15 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import routes from '../constants/routes';
-import styles from './Home.css';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import { OutlinedInput } from '@material-ui/core';
-import SimpleSelect from './Selectot/SimpleSelect';
+import { Typography, TextField } from '@material-ui/core';
 
 type Props = {};
 
@@ -18,15 +9,29 @@ export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      age: '10'
+      age: '10',
+      name: 'lakshan'
     };
   }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
   render() {
     return (
-      <div className={styles.container} data-tid="container">
-        <h2>Home</h2>
-        <Link to={routes.COUNTER}>to Counter</Link>
-        <SimpleSelect />
+      <div>
+        <Typography variant="h3">Welcome back!</Typography>
+        <TextField
+          id="outlined-name"
+          label="Name"
+          value={this.state.name}
+          onChange={this.handleChange('name')}
+          margin="normal"
+          variant="outlined"
+        />
       </div>
     );
   }
