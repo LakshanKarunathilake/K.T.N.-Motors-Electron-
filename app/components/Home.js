@@ -9,14 +9,19 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
-const db = require('../actions/dbConnection');
+import swal from 'sweetalert';
+import { isAValidUser } from '../actions/Users/ValidateAuthentication';
 
 type Props = {};
 
 export default class Home extends Component<Props> {
   props: Props;
 
+  /**
+   *Creates an instance of Home.
+   * @param {*} props
+   * @memberof Home
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +41,41 @@ export default class Home extends Component<Props> {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
+  handleLoginAction = userCredenntials => {
+    isAValidUser(userCredenntials)
+      .then(msg => {
+        console.log('msg :', msg);
+        // eslint-disable-next-line promise/always-return
+        switch (msg) {
+          case 'valid user':
+            swal(
+              'Welcome Back',
+              'Please wati till loading the applicatgion',
+              'success'
+            );
+            break;
+          case 'incorrect password':
+            swal('Password error', 'Please check your password again', 'info');
+            break;
+          case 'invalid user credentials':
+            swal(
+              'User Not Found',
+              'Such user doenot exist in the system please retry credentials',
+              'error'
+            );
+            break;
+          default:
+            console.log('default');
+            break;
+        }
+      })
+      .catch(err => {
+        console.log('error in validating user');
+        console.log(err);
+      });
+  };
+
   render() {
-    const users = db.getUsers();
-    console.log('users', users);
     const { name, showPassword, password } = this.state;
     return (
       <div
@@ -49,7 +86,6 @@ export default class Home extends Component<Props> {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          // backgroundColor: 'cyan',
           margin: '0 auto'
         }}
       >
@@ -58,7 +94,6 @@ export default class Home extends Component<Props> {
             Welcome back!
           </Typography>
         </div>
-
         <div style={{ display: 'block' }}>
           <TextField
             id="outlined-name"
@@ -95,8 +130,6 @@ export default class Home extends Component<Props> {
         </div>
         <div
           style={{
-            // display: 'flex',
-            // justifyContent: 'flex-end',
             width: '350px',
             marginTop: '20px'
           }}
@@ -107,6 +140,7 @@ export default class Home extends Component<Props> {
               float: 'right',
               color: 'white'
             }}
+            onClick={() => this.handleLoginAction({ name, password })}
           >
             Login
           </Button>
