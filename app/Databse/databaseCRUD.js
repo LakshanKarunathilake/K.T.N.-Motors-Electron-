@@ -1,11 +1,10 @@
 import { closeConnection, openConnection } from './dbConnection';
 
-// eslint-disable-next-line import/prefer-default-export
-export const getUsers = () =>
+export const getTableData = tableName =>
   new Promise((resolve, reject) => {
     const con = openConnection();
     con.query(
-      'SELECT * FROM users',
+      `SELECT * FROM ${tableName}`,
       (err, rows) => {
         if (err) {
           console.log('An error ocurred performing the query.');
@@ -17,3 +16,24 @@ export const getUsers = () =>
       () => closeConnection(con)
     );
   });
+
+export const insertRecordToTable = (columns, values, tableName) => {
+  const con = openConnection();
+  let columnString = '';
+  let valueString = '';
+  columns.forEach((column, index) => {
+    columnString += column;
+    if (index !== columns.width) {
+      columnString += ',';
+    }
+  });
+  values.forEach((column, index) => {
+    valueString += column;
+    if (index !== columns.width) {
+      valueString += ',';
+    }
+  });
+  con.query(
+    `INSERT INTO customers (${columnString}) VALUES (${valueString}) from ${tableName}`
+  );
+};
