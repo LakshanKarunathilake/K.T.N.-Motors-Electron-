@@ -10,31 +10,22 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import swal from 'sweetalert';
-import { isAValidUser } from '../actions/Users/ValidateAuthentication';
+import { isAValidUser } from './ValidateAuthentication';
 
-type Props = {};
+type Props = {
+  history: () => void
+};
 
-export default class Home extends Component<Props> {
+export default class LoginPage extends Component<Props> {
   props: Props;
 
-  /**
-   *Creates an instance of Home.
-   * @param {*} props
-   * @memberof Home
-   */
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      password: '',
-      showPassword: false
-    };
+    this.state = { name: '', password: '', showPassword: false };
   }
 
   handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
+    this.setState({ [name]: event.target.value });
   };
 
   handleClickShowPassword = () => {
@@ -42,28 +33,45 @@ export default class Home extends Component<Props> {
   };
 
   handleLoginAction = userCredenntials => {
+    const { history } = this.props;
     isAValidUser(userCredenntials)
       .then(msg => {
         console.log('msg :', msg);
+
         // eslint-disable-next-line promise/always-return
         switch (msg) {
           case 'valid user':
             swal(
               'Welcome Back',
               'Please wati till loading the applicatgion',
-              'success'
+              'success',
+              {
+                buttons: false,
+                timer: 1000
+              }
             );
+            history.push('/home');
             break;
+
           case 'incorrect password':
-            swal('Password error', 'Please check your password again', 'info');
+            swal('Password error', 'Please check your password again', 'info', {
+              buttons: false,
+              timer: 1500
+            });
             break;
+
           case 'invalid user credentials':
             swal(
               'User Not Found',
               'Such user doenot exist in the system please retry credentials',
-              'error'
+              'error',
+              {
+                buttons: false,
+                timer: 1500
+              }
             );
             break;
+
           default:
             console.log('default');
             break;
@@ -76,6 +84,7 @@ export default class Home extends Component<Props> {
   };
 
   render() {
+    console.log('props', this.props);
     const { name, showPassword, password } = this.state;
     return (
       <div
@@ -128,12 +137,7 @@ export default class Home extends Component<Props> {
             }}
           />
         </div>
-        <div
-          style={{
-            width: '350px',
-            marginTop: '20px'
-          }}
-        >
+        <div style={{ width: '350px', marginTop: '20px' }}>
           <Button
             style={{
               backgroundColor: '#3F51B5',

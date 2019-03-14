@@ -1,4 +1,4 @@
-import { getUsers } from '../DatabaseCRUD/DatabaseCRUD';
+import { getUsers } from '../../Databse/databaseCRUD';
 
 // eslint-disable-next-line import/prefer-default-export
 export const isAValidUser = userCredentials =>
