@@ -1,27 +1,33 @@
 const mysql = require('mysql');
-
+const swal = require('sweetalert');
 // First you need to create a connection to the db
 // Add the credentials to access your database
-const con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: null,
-  database: 'prototype'
-});
-
 const exports = (module.exports = {});
 
 exports.openConnection = () => {
+  const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: null,
+    database: 'prototype'
+  });
+  console.log('opening connection');
   con.connect(err => {
     if (err) {
       console.log('Error connecting to Db');
+      swal(
+        'Database Connection',
+        'Can not establish connection between Database',
+        'error'
+      );
       return;
     }
     console.log('Connection established');
   });
+  return con;
 };
 
-exports.closeConnection = () => {
+exports.closeConnection = con => {
   con.end(err => {
     // The connection is terminated gracefully
     // Ensures all previously enqueued queries are still
@@ -30,5 +36,3 @@ exports.closeConnection = () => {
     console.log(err);
   });
 };
-
-exports.con = con;

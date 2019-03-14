@@ -1,9 +1,9 @@
-import { con, closeConnection, openConnection } from './dbConnection';
+import { closeConnection, openConnection } from './dbConnection';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getUsers = () =>
   new Promise((resolve, reject) => {
-    openConnection();
+    const con = openConnection();
     con.query(
       'SELECT * FROM users',
       (err, rows) => {
@@ -14,6 +14,6 @@ export const getUsers = () =>
         }
         resolve(rows);
       },
-      () => closeConnection()
+      () => closeConnection(con)
     );
   });
