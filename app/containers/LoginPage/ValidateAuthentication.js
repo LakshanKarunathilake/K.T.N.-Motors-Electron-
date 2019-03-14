@@ -1,9 +1,9 @@
-import { getUsers } from '../../Databse/databaseCRUD';
+import { getTableData } from '../../Databse/databaseCRUD';
 
 // eslint-disable-next-line import/prefer-default-export
 export const isAValidUser = userCredentials =>
   new Promise((resolve, reject) => {
-    getUsers()
+    getTableData('users')
       .then(users => {
         const indexOfuser = users
           .map(element => element.user_name)
