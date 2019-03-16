@@ -105,10 +105,9 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, history } = this.props;
     const { open } = this.state;
     const previewComponent = this.getCurrentPreviewComponent();
-
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -189,6 +188,9 @@ class HomePage extends React.Component {
                 <ListItemText primary={text} />
               </ListItem>
             ))}
+            <ListItem button onClick={() => history.goBack()}>
+              <ListItemText>Logout</ListItemText>
+            </ListItem>
           </List>
         </Drawer>
         <main
@@ -208,7 +210,8 @@ HomePage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  history: PropTypes.func.isRequired
 };
 
 export default withStyles(styles, { withTheme: true })(HomePage);
