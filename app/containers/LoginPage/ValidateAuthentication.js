@@ -1,12 +1,12 @@
-import { getTableData } from '../../Databse/databaseCRUD';
+const User = require('../../../models/user');
 
 // eslint-disable-next-line import/prefer-default-export
-export const isAValidUser = userCredentials =>
+export const isAValidUser = async userCredentials =>
   new Promise((resolve, reject) => {
-    getTableData('users')
+    User.findAll()
       .then(users => {
         const indexOfuser = users
-          .map(element => element.user_name)
+          .map(element => element.userName)
           .findIndex(element => element === userCredentials.name);
         // eslint-disable-next-line promise/always-return
         if (indexOfuser !== -1) {
