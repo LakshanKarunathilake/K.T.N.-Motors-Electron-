@@ -8,7 +8,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       category: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: { model: 'categories', key: 'name' }
       },
       vehicle: {
         type: Sequelize.STRING
