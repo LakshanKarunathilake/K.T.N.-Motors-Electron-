@@ -1,8 +1,12 @@
 const Sequelize = require('sequelize');
+const Category = require('../models/category');
 
-module.exports = global.sequelize.define('item', {
+const Item = global.sequelize.define('Item', {
   itemCode: Sequelize.STRING,
-  category: Sequelize.STRING,
+  categoryId: {
+    type: Sequelize.INTEGER,
+    references: { model: Category, key: 'name' }
+  },
   vehicle: Sequelize.STRING,
   brand: Sequelize.STRING,
   description: Sequelize.STRING,
@@ -10,3 +14,7 @@ module.exports = global.sequelize.define('item', {
   cost: Sequelize.DECIMAL,
   selling: Sequelize.DECIMAL
 });
+
+Item.hasOne(Category);
+
+module.exports = Item;
