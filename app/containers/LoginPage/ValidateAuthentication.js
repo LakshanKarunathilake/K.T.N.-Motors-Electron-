@@ -1,4 +1,6 @@
+require('../../Databse/dbConnection');
 const User = require('../../../models/user');
+require('../../../resources/dataLoading/dataload');
 
 // eslint-disable-next-line import/prefer-default-export
 export const isAValidUser = async userCredentials =>
