@@ -8,4 +8,4 @@ const Category = global.sequelize.define(
   {}
 );
 
-module.exports = Category;
+export default Category;

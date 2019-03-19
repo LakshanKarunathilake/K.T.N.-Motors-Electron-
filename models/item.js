@@ -17,4 +17,4 @@ const Item = global.sequelize.define('Item', {
 
 Item.hasOne(Category);
 
-module.exports = Item;
+export default Item;
